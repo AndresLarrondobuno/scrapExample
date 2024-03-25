@@ -76,14 +76,14 @@ def extract_product_list_data(html_tree: BeautifulSoup):
     return products_data
 
 
-def get_next_page_button(webdriver):
-    next_page_button = webdriver.find_element(By.CSS_SELECTOR, "div > div.ui-search-main.ui-search-main--only-products.ui-search-main--with-topkeywords > section > nav > ul > li.andes-pagination__button.andes-pagination__button--next > a")
-    next_page_li = next_page_button.find_element(By.XPATH, '..')
+def get_next_page_button(web_driver: webdriver.Chrome):
+    next_page_li = web_driver.find_element(By.CSS_SELECTOR, "li.andes-pagination__button.andes-pagination__button--next")
     li_classes = next_page_li.get_attribute("class")
     button_disabled = "disabled" in li_classes
+    next_page_anchor = next_page_li.find_element(By.TAG_NAME, "a")
 
     if not button_disabled:
-        return next_page_button
+        return next_page_anchor
 
 
 def click_tag(webdriver, tag, delay_range):
@@ -116,7 +116,7 @@ def get_product_search_url(product_search: str):
 
 
 #contemplate cases of searches wtih spaces: "cama dos plazas" -> /cama-dos-plazas#D[A:cama%20dos%20plazas]
-product_search = ''
+product_search = 'ventilador'
 product_list_url = get_product_search_url(product_search)
 data = []
 web_driver = webdriver.Chrome() #instanciate driver for chrome
@@ -128,6 +128,7 @@ extract_product_data(product_search, web_driver, http_fetcher, product_list_url)
 csv_exporter = CsvExporter()
 header = ['Title', 'Price', 'Score']
 csv_exporter.createCsvFile(f'product_{product_search}.csv', header)
+
 for product_list_data in data:
     for product_data in product_list_data:
         csv_exporter.append(product_data)
