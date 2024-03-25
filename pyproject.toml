@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "scrapexample"
+version = "0.1.0"
+description = "This is an example of data extraction. Target website is mercadolibre.com.ar"
+authors = ["AndresLarrondobuno <andreslarrondobuno@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+selenium = "^4.18.1"
+requests = "^2.31.0"
+bs4 = "^0.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
